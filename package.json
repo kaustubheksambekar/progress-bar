@@ -1,0 +1,17 @@
+{
+  "name": "progress-bar",
+  "author": "Kaustubh Eksambekar",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "http-server .",
+    "dev": "nodemon app.js"
+  },
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pdfkit": "^0.11.0",
+    "request": "^2.88.2",
+    "socket.io": "^2.3.0"
+  }
+}

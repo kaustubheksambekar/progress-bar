@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Bar</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    .align-center { 
+      text-align: center;
+    }
+   .btn {
+      padding: 10px;
+      background: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .progress-bar-container {
+      text-align: left;
+      display: none;
+    }
+    .progress-bar {
+      min-height: 30px;
+      width: 0%;
+      margin: 20px 0px;
+      background: rebeccapurple;
+      transition: all 0.4s;
+    }
+    .status {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="align-center">
+    <h1>Create PDF</h1>
+    <button type="button" class="btn" onclick="generatePDF()">Create PDF</button>
+    <div class="progress-bar-container">
+      <div>Progress: <span id="iteration">0%</span></div>
+      <div class="progress-bar"></div>
+      <div class="status">Completed ! <a href="/output" target="_blank">See PDF</a></div>
+    </div>
+  </main>
+  <script>
+    
+    var socket = io();
+    function generatePDF() {
+
+      document.getElementsByClassName('progress-bar-container')[0].style.display = 'block';
+
+      var xhr = new XMLHttpRequest();
+      
+      xhr.open('post', '/generate-pdf', true);
+
+      socket.on('progress_update', function(iteration){
+        document.getElementById('iteration').innerHTML = iteration;
+        document.getElementsByClassName('progress-bar')[0].style.width = iteration;
+      });
+
+      socket.on('progress_update_done', function(){
+        document.getElementsByClassName('status')[0].style.display = 'block';
+      });
+      
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
